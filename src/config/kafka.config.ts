@@ -1,6 +1,11 @@
 import { Kafka, logLevel } from "kafkajs";
 import fs from "fs";
 import path from "path";
+import dotenv from "dotenv"
+
+dotenv.config();
+
+
 
 // Path to your CA certificate
 const sslCertsDir = path.resolve(__dirname, './certs');  // Update this path to where you save the CA certificate
