@@ -13,7 +13,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up SSH
+    - name: SSH and deploy
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
@@ -21,15 +21,4 @@ jobs:
         chmod 600 keyfile
         mkdir -p ~/.ssh
         cp known_hosts ~/.ssh/known_hosts
-
-    - name: SSH into EC2 and run deployment
-      run: |
-        ssh -i keyfile ubuntu@ec2-13-201-137-129.ap-south-1.compute.amazonaws.com << 'EOF'
-          # Source NVM on EC2 instance
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm use v23.0.0
-          
-          # Run the deployment script
-          sudo bash ~/deploy.sh
-        EOF
+        ssh -i keyfile ubuntu@ec2-13-201-137-129.ap-south-1.compute.amazonaws.com "sudo bash ~/deploy.sh"
